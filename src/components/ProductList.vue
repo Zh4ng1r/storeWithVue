@@ -12,7 +12,7 @@
 import ProductItem from './ProductItem.vue';
 export default {
     components:{
-        ProductItem
+        ProductItem,
     }
     
 }

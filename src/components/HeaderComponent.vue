@@ -12,7 +12,7 @@
                         <li class="header-text"><a href="">Men</a></li>
                         <li class="header-text"><a href="">Women</a></li>
                         <li class="header-text"><a href="">Trends</a></li>
-                        <li class="header-text"><a href="">Collections</a></li>
+                        <router-link to="/ProductList"><li class="header-text"><a href="">Collections</a></li></router-link>
                         <li class="header-text"><a href="">Sale</a></li>
                         <li class="header-text"><a href="">Blog</a></li>
                     </ul>

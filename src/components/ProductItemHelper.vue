@@ -1,6 +1,6 @@
 <template>
     <div class="item">
-      <img :src="item.image" alt="">
+      <img :src="resolveImage()" alt="">
       <div class="product-list_text">
         <h5>{{ item.title }}</h5>
         <h6>{{ item.price }}</h6>
@@ -11,7 +11,12 @@
   
 <script>
     export default {
-        props: ['item']
+        props: ['item'],
+        methods:{
+            resolveImage(){
+                return this.item.image
+            }
+        }
     }
 </script>
 

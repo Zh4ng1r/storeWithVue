@@ -1,14 +1,20 @@
 <template>
-<headerBlock/>
-<ProductList/>
+  <div id="App">
+    <HeaderBlock />
+    <router-view />
+  </div>
 </template>
 
 <script>
-import headerBlock from './components/Header.vue'
-import ProductList from './components/ProductList.vue'
+import HeaderBlock from './components/HeaderComponent.vue';
+import mainPage from '@/pages/Main.vue'
+import ProductItem from './components/ProductItem.vue'
 export default {
+  name: 'App',
   components:{
-    headerBlock, ProductList
+    mainPage,
+    ProductItem,
+    HeaderBlock
   }
 }
 </script>
@@ -19,13 +25,13 @@ export default {
 body{
   font-family: 'Inter', sans-serif;
   font-size: 14px;
-  color: black;
 }
 
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  color: black;
 }
 
 .container{
