@@ -8,7 +8,7 @@
             
                 <div class="text-block">
                     <ul class="header-text_block">
-                        <li class="header-text"><a href="" >Home</a></li>
+                        <router-link to="/"><li class="header-text"><a href="" >Home</a></li></router-link>
                         <li class="header-text"><a href="">Men</a></li>
                         <li class="header-text"><a href="">Women</a></li>
                         <li class="header-text"><a href="">Trends</a></li>
@@ -41,7 +41,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 header{
     margin-bottom: 100px;
 }
@@ -56,6 +56,14 @@ ul li a{
     font-weight: 700;
     list-style: none;
     color:black;
+}
+
+ul li{
+  transition: 0.5s all ease;
+}
+
+ul li:hover{
+  border-bottom: 1px solid #141414;
 }
 
 .header-text{
