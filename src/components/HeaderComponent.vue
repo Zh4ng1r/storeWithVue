@@ -1,43 +1,49 @@
 <template>
-    <header class="header-inner">
-        <div class="container"> 
-            <nav class="navigation">
-                <div class="logo">
-                    <a href=""><img src="./HeaderImage/logotype.png" alt=""></a>
-                </div>
-            
-                <div class="text-block">
-                    <ul class="header-text_block">
-                        <router-link to="/"><li class="header-text"><a href="" >Home</a></li></router-link>
-                        <li class="header-text"><a href="">Men</a></li>
-                        <li class="header-text"><a href="">Women</a></li>
-                        <li class="header-text"><a href="">Trends</a></li>
-                        <router-link to="/ProductList"><li class="header-text"><a href="">Collections</a></li></router-link>
-                        <li class="header-text"><a href="">Sale</a></li>
-                        <li class="header-text"><a href="">Blog</a></li>
-                    </ul>
-                    <a href=""><img src="./HeaderImage/cartImage.svg" alt="SVG Image"></a>
-                </div>
-            </nav>
-        </div>
-    </header>
+  <header class="header-inner">
+      <div class="container"> 
+          <nav class="navigation">
+              <div class="logo">
+                  <router-link to="/"><img src="./HeaderImage/logotype.png" alt=""></router-link>
+              </div>
+          
+              <div class="text-block">
+                  <ul class="header-text_block">
+                      <router-link to="/"><li class="header-text"><a href="" >Home</a></li></router-link>
+                      <li class="header-text"><a href="">Men</a></li>
+                      <li class="header-text"><a href="">Women</a></li>
+                      <li class="header-text"><a href="">Trends</a></li>
+                      <router-link to="/ProductList"><li class="header-text"><a href="">Collections</a></li></router-link>
+                      <li class="header-text"><a href="">Sale</a></li>
+                      <li class="header-text"><a href="">Blog</a></li>
+                  </ul>
+                  <a href=""><img src="./HeaderImage/cartImage.svg" alt="SVG Image" @click.prevent="showDialog"></a>
+                  <my-dialog v-model:show="dialogVisible" @close="closeDialog">
+                      <CartCompanents/>
+                  </my-dialog>
+              </div>
+          </nav>
+      </div>
+  </header>
 </template>
 
 <script>
+import CartCompanents from './CartCompanents'
+import MyDialog from './UI/MyDialog.vue';
+import ProductItemHelper from './ProductItemHelper.vue';
+
 export default {
-  data() {
-    return {
-      isCartOpen: false
-    };
-  },
-  methods: {
-    toggleCart() {
-      this.isCartOpen = !this.isCartOpen;
-    },
-    closeCart() {
-      this.isCartOpen = false;
-    }
-  },
+components: { MyDialog, ProductItemHelper,CartCompanents },
+data() {
+  return {
+    dialogVisible: false,
+    contentDialog: []
+  };
+},
+methods: {
+  showDialog(){
+    this.dialogVisible = true;
+  }, 
+}
 };
 </script>
 
