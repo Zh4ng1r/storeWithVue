@@ -1,5 +1,6 @@
 import Main from '@/pages/Main.vue';
 import ProductList from '@/components/ProductList.vue';
+import PostIdPage from '@/pages/PostIdPage.vue'
 
 import { createRouter, createWebHistory } from 'vue-router';
 
@@ -11,6 +12,10 @@ const routes = [
   {
     path: '/productList',
     component: ProductList,
+  },
+  {
+    path: '/productList/:id',
+    component: PostIdPage
   }
 ];
 

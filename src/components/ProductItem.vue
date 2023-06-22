@@ -14,7 +14,7 @@
       <h2 class="text-shoes">{{ getContentTitle() }}</h2>
       <div class="items">
         <div v-for="item in filteredItems" :key="item.id">
-          <ProductItemHelper :item="item" @add-to-cart="addToCart" />
+          <ProductItemHelper :item="item" @add-to-cart="addToCart"/>
         </div>
       </div>
     </div>
@@ -24,6 +24,7 @@
 <script>
 import ProductItemHelper from './ProductItemHelper.vue';
 import axios from 'axios';
+import MyButton from './UI/MyButton.vue';
 
 export default {
   data() {
@@ -71,7 +72,8 @@ export default {
     }
   },
   components: {
-    ProductItemHelper
+    ProductItemHelper,
+    MyButton
   },
   computed: {
     filteredItems() {
