@@ -3,15 +3,15 @@
     <div class="carousel">
       <div class="carouselInner">
         <div class="column1">
-          <Carousel :carousel_data="sliderItems[0]" />
+          <Carousel :carousel_data="carouselItems[0]" />
         </div>
       </div>
       <div class="column">
           <div class="carousel-item-wrapper">
-            <Carousel :carousel_data="sliderItems[1]" />
+            <Carousel :carousel_data="carouselItems[1]" />
           </div>
           <div class="carousel-item-wrapper">
-            <Carousel :carousel_data="sliderItems[2]" />
+            <Carousel :carousel_data="carouselItems[2]" />
           </div>
         </div>
     </div>
@@ -21,19 +21,20 @@
 
   
 <script>
-  import Carousel from '@/components/СarouselItem.vue'
+  import Carousel from '@/components/CarouselItem.vue'
   import CarouselControl from '@/components/CarouselControl.vue';
+  import { useItemStore } from '@/stores/ItemStores.js'
   
   export default {
-    data() {
+    setup(){
+      const itemStore = useItemStore();
+      const carouselItems = itemStore.items;
+
       return {
-        sliderItems: [
-          { id: 1, img: '/images/slider1.png', title: "Stylish shoes for Women", textColor: "black"},
-          { id: 2, img: '/images/slider2.png', title: "Sports Wear", textColor: "white" },
-          { id: 3, img: '/images/slider3.png', title: "Fashion Shoes", textColor: "black" },
-        ]
-      };
+      carouselItems,
+    };
     },
+
     components: {
       Carousel, CarouselControl
     }

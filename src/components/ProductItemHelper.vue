@@ -34,12 +34,10 @@ import MyButton from './UI/MyButton.vue';
     }
 
     img {
-        width: 100%px;
-        max-width: 300px;
-        height: 200px;
-        height: auto;
-        margin-bottom: 5px;
+        width: 300px;
+        height: 300px;
         object-fit: cover;
+        margin-bottom: 5px;
     }
 
     h5,h6{
