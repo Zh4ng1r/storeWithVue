@@ -8,14 +8,8 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import ProductItem from './ProductItem.vue';
-export default {
-    components:{
-        ProductItem,
-    }
-    
-}
 </script>
 
 <style scoped>

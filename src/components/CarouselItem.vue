@@ -10,19 +10,18 @@
     </div>
 </template>
   
-<script>
-  export default {
-    props: {
-      carousel_data: {
-        type: Object,
-        required: true
-      }
-    },
-    methods: {
-      resolveImage() {
-        return this.carousel_data.img;
-      }
+<script setup>
+  import { ref } from 'vue';
+  
+  const props = defineProps ({
+    carousel_data: {
+      type: Object,
+      required: true
     }
+  });
+  
+  const resolveImage = () => {
+    return carousel_data.img;
   };
 </script>
   

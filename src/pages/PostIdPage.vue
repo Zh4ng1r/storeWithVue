@@ -6,47 +6,44 @@
           <div class="title">{{ selectedItem.title }}</div>
           <div class="price">{{ selectedItem.price }}</div>
           <div class="body">{{ selectedItem.body }}</div>
-          <my-button class="button" @click="addToCart(selectedItem)"> Add to Cart</my-button>
+          <MyButton class="button" @click="addToCart(selectedItem)"> Add to Cart</MyButton>
         </div>
       </div>
       <div v-else>
         <p>Item not found</p>
       </div>
     </div>
-  </template>
+</template>
   
-  <script>
+<script setup>
+  import { ref, onMounted } from 'vue';
+  import {useRoute} from 'vue-router'
   import MyButton from '@/components/UI/MyButton.vue';
-  import itemsJson from '../../public/items.json';
-  
-  export default {
-    components: { MyButton },
-    data() {
-      return {
-        itemsJson: itemsJson,
-        selectedItem: null,
-        cart: []
-      };
-    },
-    methods: {
-      addToCart(item) {
-        const cartItems = JSON.parse(localStorage.getItem('cart')) || []; 
-        cartItems.push(item); 
-        localStorage.setItem('cart', JSON.stringify(cartItems)); 
-      },
-      updateSelectedItem() {
-        const itemId = parseInt(this.$route.params.id);
-        this.selectedItem = this.itemsJson.find(item => item.id === itemId);
-      }
-    },
-    mounted() {
-      this.updateSelectedItem();
-    }
+  import itemsJsonData from '../../public/items.json';
+
+  const route = useRoute()
+  const itemsJson = ref(itemsJsonData);
+  const selectedItem = ref(null);
+  const cart = ref([]);
+
+  const addToCart = (item) =>{
+    const cartItems = JSON.parse(localStorage.getItem('cart')) || []; 
+    cartItems.push(item); 
+    localStorage.setItem('cart', JSON.stringify(cartItems)); 
   };
-  </script>
+
+  const updateSelectedItem = () => {
+    const itemId = parseInt(route.params.id);
+    selectedItem.value = itemsJson.find(item => item.id === itemId);
+  };
+
+  onMounted(() =>{
+    updateSelectedItem();
+  })
+</script>
   
 
-  <style scoped>
+<style scoped>
     img{
         width: 100%;
         max-width: 200px;

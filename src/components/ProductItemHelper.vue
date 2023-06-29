@@ -10,20 +10,25 @@
     </div>
 </template>
   
-<script>
+<script setup>
+import { defineEmits } from 'vue';
 import MyButton from './UI/MyButton.vue';
-    export default {
-        components:{MyButton},
-        props: ['item'],
-        methods:{
-            resolveImage(){
-                return this.item.image
-            },
-             addToCart() {
-                this.$emit('add-to-cart', this.item);
-            }
-        }
+
+const emit = defineEmits(['add-to-cart'])
+const props = defineProps({
+    item: {
+        type: Object,
+        required: true
     }
+})
+
+const addToCart = () =>{
+    emit('add-to-cart', item);
+}
+
+const resolveImage = () => {
+    return props.item.image
+}
 </script>
 
 <style scoped>
