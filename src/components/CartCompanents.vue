@@ -21,42 +21,42 @@
       </div>
     </div>
 </template>
-  
-<script>
-  export default {
-    data() {
-      return {
-        isCartOpen: false,
-        contentDialog: [],
-      };
-    },
-    methods: {
-      toggleCart() {
-        this.isCartOpen = !this.isCartOpen;
-      },
-      removeFromCart(id) {
-        this.contentDialog = this.contentDialog.filter(item => item.id !== id);
-        this.saveInformation()
-     },
-      saveInformation(){
-        const dialogDataString = JSON.stringify(this.contentDialog);
-        localStorage.setItem('cart', dialogDataString)
-      },
-      loadLocaleStorage() {
-        const parsedLocalStorage = JSON.parse(localStorage.getItem('cart'));
-        if(parsedLocalStorage){
-        this.contentDialog = parsedLocalStorage;
-        } else {
-        this.contentDialog = [];
-        }
-    },
 
-},
-mounted() {
-  this.loadLocaleStorage();
-    },
+<script setup>
+  import { ref, onMounted } from 'vue';
+
+  const isCartOpen = ref(false);
+  const contentDialog = ref([]);
+
+  const toggleCart = () => {
+    isCartOpen.value = !isCartOpen.value;
   };
+
+  const removeFromCart = (id) => {
+    contentDialog.value = contentDialog.value.filter(item => item.id !== id);
+    saveInformation();
+  };
+
+  const saveInformation = () => {
+    const dialogDataString = JSON.stringify(contentDialog.value);
+    localStorage.setItem('cart', dialogDataString);
+  };
+
+  const loadLocalStorage = () => {
+    const parsedLocalStorage = JSON.parse(localStorage.getItem('cart'));
+    if (parsedLocalStorage) {
+      contentDialog.value = parsedLocalStorage;
+    } else {
+      contentDialog.value = [];
+    }
+  };
+
+  onMounted(() => {
+    loadLocalStorage();
+  });
 </script>
+
+  
   
 <style scoped>
   .cart-container {

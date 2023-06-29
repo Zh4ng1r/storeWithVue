@@ -26,25 +26,17 @@
   </header>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue';
 import CartCompanents from './CartCompanents'
 import MyDialog from './UI/MyDialog.vue';
-import ProductItemHelper from './ProductItemHelper.vue';
 
-export default {
-components: { MyDialog, ProductItemHelper,CartCompanents },
-data() {
-  return {
-    dialogVisible: false,
-    contentDialog: []
-  };
-},
-methods: {
-  showDialog(){
-    this.dialogVisible = true;
-  }, 
-}
-};
+const dialogVisible = ref(false);
+const contentDialog = ref([]);
+
+const showDialog = () => {
+    dialogVisible.value = true; 
+  }
 </script>
 
 <style scoped>

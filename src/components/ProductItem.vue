@@ -5,7 +5,7 @@
       <aside class="sidebar">
         <div class="aside-content">
           <ul>
-            <li v-for="category in categories" :key="category.category" @click="changeContent(category.category)">
+            <li v-for="category in state.categories" :key="category.category" @click="changeContent(category.category)">
               {{ category.category }}
             </li>
           </ul>
@@ -21,75 +21,71 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { onMounted, computed, reactive } from 'vue';
 import ProductItemHelper from './ProductItemHelper.vue';
 import axios from 'axios';
-import MyButton from './UI/MyButton.vue';
 
-export default {
-  data() {
-    return {
-      items: [],
-      cart: [],
-      categories: [
-        { category: 'all' },
-        { category: 'shoes' },
-        { category: 'jackets' },
-        { category: 't-shirt' }
-      ],
-      content: 'all'
-    };
-  },
-  methods: {
-    addToCart(item) {
-      this.cart.push(item);
-      this.saveCartToLocalStorage();
-    },
-    saveCartToLocalStorage() {
-      localStorage.setItem('cart', JSON.stringify(this.cart));
-    },
-    changeContent(newContent) {
-      this.content = newContent;
-    },
-    getContentTitle() {
-      if (this.content === 'all') {
-        return 'All Items';
-      } else if (this.content === 'shoes') {
-        return 'Shoes';
-      } else if (this.content === 'jackets') {
-        return 'Jackets';
-      } else if (this.content === 't-shirt') {
-        return 'T-shirt';
-      }
-    },
-    async fetchData() {
-      try {
-        const { data } = await axios.get('items.json');
-        this.items = data;
-      } catch (error) {
-        this.items = [];
-      }
-    }
-  },
-  components: {
-    ProductItemHelper,
-    MyButton
-  },
-  computed: {
-    filteredItems() {
-      if (this.content === 'all') {
-        return this.items;
-      } else {
-        return this.items.filter(
-          item => item.category && item.category.toLowerCase() === this.content
-        );
-      }
-    }
-  },
-  mounted() {
-    this.fetchData();
+const state = reactive({
+  items: [],
+  cart: [],
+  categories: [
+    { category: 'all' },
+    { category: 'shoes' },
+    { category: 'jackets' },
+    { category: 't-shirt' }
+  ],
+  content: 'all'
+});
+
+const addToCart = (item) => {
+  state.cart.push(item);
+  saveCartToLocalStorage();
+};
+
+const saveCartToLocalStorage = () => {
+  localStorage.setItem('cart', JSON.stringify(state.cart));
+};
+
+const changeContent = (newContent) => {
+  state.content = newContent;
+};
+
+const getContentTitle = () => {
+  if (state.content === 'all') {
+    return 'All Items';
+  } else if (state.content === 'shoes') {
+    return 'Shoes';
+  } else if (state.content === 'jackets') {
+    return 'Jackets';
+  } else if (state.content === 't-shirt') {
+    return 'T-shirt';
   }
 };
+
+const fetchData = async () => {
+  try {
+    const { data } = await axios.get('items.json');
+    state.items = data;
+  } catch (error) {
+    state.items = [];
+  }
+};
+
+const filteredItems = computed(() => {
+  if (state.content === 'all') {
+    return state.items;
+  } else {
+    return state.items.filter(
+      item => item.category && item.category.toLowerCase() === state.content
+    );
+  }
+});
+
+onMounted(() => {
+  fetchData();
+});
+
 </script>
 
 <style scoped>
