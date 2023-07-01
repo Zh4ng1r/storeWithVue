@@ -39,9 +39,18 @@ const state = reactive({
 });
 
 const addToCart = (item) => {
-  state.cart.push(item);
+  const findItem = state.cart.find((cartItem) => cartItem.id === item.id);
+  console.log(findItem)
+  if(findItem){
+    findItem.count += 1;
+  }
+  else{
+    state.cart.push(item);
+    saveCartToLocalStorage();
+  };
+  
   saveCartToLocalStorage();
-};
+}
 
 const saveCartToLocalStorage = () => {
   localStorage.setItem('cart', JSON.stringify(state.cart));
@@ -135,8 +144,6 @@ onMounted(() => {
 }
 
 .item {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
   gap: 15px;
   align-items: center;
   margin-bottom: 20px;

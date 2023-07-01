@@ -17,7 +17,7 @@
                       <li class="header-text"><a href="">Blog</a></li>
                   </ul>
                   <a href=""><img src="./HeaderImage/cartImage.svg" alt="SVG Image" @click.prevent="showDialog"></a>
-                  <my-dialog v-model:show="dialogVisible" @close="closeDialog">
+                  <my-dialog v-model:show="dialogVisible" @close="closeDialog" @keyup.esc="closeDialog">
                       <CartCompanents/>
                   </my-dialog>
               </div>

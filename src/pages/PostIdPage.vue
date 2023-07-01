@@ -34,7 +34,7 @@
 
   const updateSelectedItem = () => {
     const itemId = parseInt(route.params.id);
-    selectedItem.value = itemsJson.find(item => item.id === itemId);
+    selectedItem.value = itemsJson.value.find(item => item.id === itemId);
   };
 
   onMounted(() =>{

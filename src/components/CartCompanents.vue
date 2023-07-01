@@ -1,6 +1,6 @@
 <template>
     <div class="cart-container">
-      <a href="#" class="cart-icon" @click="toggleCart">
+      <a href="#" class="cart-icon">
         <img src="./HeaderImage/cartImage.svg" alt="Cart Icon">
         <span class="cart-count">{{ contentDialog.length }}</span>
       </a>
@@ -15,22 +15,27 @@
               <h4>{{ item.title }}</h4>
               <p>{{ item.price }}</p>
             </div>
+            <div class="count__block">
+            <button class="discrement" @click="discrement(item)">-</button>
+            <div class="count">{{ item.count }} </div>
+            <button class="increment" @click="increment(item)">+</button>
+          </div>
             <button @click="removeFromCart(item.id)">Remove</button>
           </div>
         </div>
+      </div>
+      <div class="totalSum">
+          Total : {{ totalSum }}
       </div>
     </div>
 </template>
 
 <script setup>
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, watch } from 'vue';
 
   const isCartOpen = ref(false);
   const contentDialog = ref([]);
-
-  const toggleCart = () => {
-    isCartOpen.value = !isCartOpen.value;
-  };
+  const totalSum = ref();
 
   const removeFromCart = (id) => {
     contentDialog.value = contentDialog.value.filter(item => item.id !== id);
@@ -51,20 +56,51 @@
     }
   };
 
+  const increment = (item) => {
+    let findItem = contentDialog.value.find((cartItem) => cartItem.id === item.id);
+    findItem.count += 1;
+    saveInformation();
+  };
+
+  const discrement = (item) => {
+    let findItem = contentDialog.value.find((cartItem) => cartItem.id === item.id);
+    console.log()
+    findItem.count -= 1;
+    saveInformation();
+  }
+
+  const getTotalSum = () =>{
+    totalSum.value = contentDialog.value.reduce((acc, item) => acc += parseFloat(item.price.replace('$', '')) * item.count, 0);
+  }
+
   onMounted(() => {
     loadLocalStorage();
   });
+
+  watch(getTotalSum,)
 </script>
 
   
   
 <style scoped>
+
+  h2{
+    margin-bottom: 10px;
+  }
   .cart-container {
-    position: relative;
+    position: fixed;
+    top: 0;
+    width: 500px;
+    height: 50vh;
+    background-color: #fff;
+    transition: right 0.3s ease;
+    padding: 20px;
+    border-radius: 10px;
   }
   
   .cart-icon {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     text-decoration: none;
     color: black;
@@ -88,37 +124,22 @@
     margin-left: 5px;
   }
   
-  .cart-sidebar {
-    position: fixed;
-    top: 0;
-    right: -300px;
-    width: 300px;
-    height: 50vh;
-    background-color: #fff;
-    transition: right 0.3s ease;
-    padding: 20px;
-    overflow-y: scroll;
-    border-radius: 10px;
-  }
-  
   .cart-sidebar-open {
     right: 0;
   }
   
   .cart-item {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
   }
   
   .cart-item img {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     margin-right: 10px;
-  }
-  
-  .cart-item-details {
-    flex-grow: 1;
+    object-fit: cover;
   }
   
   button {
@@ -127,6 +148,28 @@
     border: none;
     cursor: pointer;
     padding: 5px 10px;
+  }
+
+  .count__block{
+    display: flex;
+  }
+
+  .increment , .discrement{
+    cursor: pointer;
+    
+  }
+
+  .increment{
+    margin-left: 10px;
+  }
+
+  .discrement{
+    margin-right: 10px;
+  }
+
+  .totalSum{
+    display: flex;
+    justify-content: center;
   }
 </style>
   
