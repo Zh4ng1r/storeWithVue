@@ -1,7 +1,7 @@
 <template>
     <div class="dialog" v-if="show">
       <div class="dialog__content">
-        <span class="close-button" @click="hideDialog">&times;</span>
+        <span class="close-button" @click="hideDialog" @keyup.esc="hideDialog">&times;</span>
         <slot></slot>
       </div>
     </div>
@@ -36,8 +36,8 @@
   
   .dialog__content {
     position: fixed;
-    top: 35%;
-    left: 41%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     background-color: #fff;
     padding: 28px;
