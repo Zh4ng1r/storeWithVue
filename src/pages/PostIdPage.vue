@@ -6,7 +6,7 @@
           <div class="title">{{ selectedItem.title }}</div>
           <div class="price">{{ selectedItem.price }}</div>
           <div class="body">{{ selectedItem.body }}</div>
-          <MyButton class="button" @click="addToCart(selectedItem)"> Add to Cart</MyButton>
+          <MyButton class="button" @click="addItemToCart(selectedItem)"> Add to Cart</MyButton>
         </div>
       </div>
       <div v-else>
@@ -15,26 +15,27 @@
     </div>
 </template>
   
-<script setup>
+<script setup lang="ts">
   import { ref, onMounted } from 'vue';
   import {useRoute} from 'vue-router'
-  import MyButton from '@/components/UI/MyButton.vue';
+  import { useCart } from '../functions/cart';
+  import MyButton from '../UI/MyButton.vue';
+  import jsonData from '@/interface/jsonData';
   import itemsJsonData from '../../public/items.json';
 
   const route = useRoute()
-  const itemsJson = ref(itemsJsonData);
-  const selectedItem = ref(null);
-  const cart = ref([]);
+  const itemsJson = ref<jsonData[]>(itemsJsonData);
+  const selectedItem = ref<jsonData | null>(null);
+  const cart = ref<jsonData[]>([]);
+  const { addToCart } = useCart();
 
-  const addToCart = (item) =>{
-    const cartItems = JSON.parse(localStorage.getItem('cart')) || []; 
-    cartItems.push(item); 
-    localStorage.setItem('cart', JSON.stringify(cartItems)); 
-  };
+  function addItemToCart(item: jsonData){
+  addToCart(item);
+  }
 
   const updateSelectedItem = () => {
-    const itemId = parseInt(route.params.id);
-    selectedItem.value = itemsJson.value.find(item => item.id === itemId);
+    const itemId = parseInt(route.params.id as string);
+    selectedItem.value = itemsJson.value.find(item => item.id === itemId)!;
   };
 
   onMounted(() =>{

@@ -3,44 +3,56 @@
     <div class="carousel">
       <div class="carouselInner">
         <div class="column1">
-          <Carousel :carousel_data="carouselItems[0]" />
+          <Carousel :carousel_data="carouselItems[activeIndex]" />
         </div>
       </div>
       <div class="column">
-          <div class="carousel-item-wrapper">
-            <Carousel :carousel_data="carouselItems[1]" />
-          </div>
-          <div class="carousel-item-wrapper">
-            <Carousel :carousel_data="carouselItems[2]" />
-          </div>
+        <div class="carousel-item-wrapper">
+          <Carousel :carousel_data="carouselItems[activeIndex + 1]" />
         </div>
+        <div class="carousel-item-wrapper">
+          <Carousel :carousel_data="carouselItems[activeIndex + 2]" />
+        </div>
+      </div>
     </div>
-    <CarouselControl />
+    <CarouselControl @next="nextSlide" @prev="prevSlide" />
   </div>
 </template>
 
-  
-<script>
-  import Carousel from '@/components/CarouselItem.vue'
-  import CarouselControl from '@/components/CarouselControl.vue';
-  import { useItemStore } from '@/stores/ItemStores.js'
-  
-  export default {
-    setup(){
-      const itemStore = useItemStore();
-      const carouselItems = itemStore.items;
+<script lang="ts">
+import Carousel from '@/components/CarouselItem.vue';
+import CarouselControl from '@/components/CarouselControl.vue';
+import { useItemStore } from '@/stores/ItemStores.js';
 
-      return {
-      carouselItems,
+export default {
+  setup() {
+    const itemStore = useItemStore();
+    const carouselItems = itemStore.items;
+    let activeIndex:number = 0;
+
+    const nextSlide = () => {
+      activeIndex = (activeIndex + 1) % (carouselItems.length - 2);
     };
-    },
 
-    components: {
-      Carousel, CarouselControl
-    }
-  }
+    const prevSlide = () => {
+      activeIndex = (activeIndex - 1 + carouselItems.length - 2) % (carouselItems.length - 2);
+    };
+
+    return {
+      carouselItems,
+      activeIndex,
+      nextSlide,
+      prevSlide,
+    };
+  },
+
+  components: {
+    Carousel,
+    CarouselControl,
+  },
+};
 </script>
-  
+
 <style scoped>
 .container {
   height: 842px;

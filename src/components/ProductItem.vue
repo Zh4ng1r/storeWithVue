@@ -14,20 +14,22 @@
       <h2 class="text-shoes">{{ getContentTitle() }}</h2>
       <div class="items">
         <div v-for="item in filteredItems" :key="item.id">
-          <ProductItemHelper :item="item" @add-to-cart="addToCart"/>
+          <ProductItemHelper :item="item" @add-to-cart="addItemToCart"/>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, computed, reactive } from 'vue';
+import { useCart } from '../functions/cart'
 import ProductItemHelper from './ProductItemHelper.vue';
+import jsonData from '@/interface/jsonData';
 import axios from 'axios';
 
 const state = reactive({
-  items: [],
+  items : <jsonData[]>[],
   cart: [],
   categories: [
     { category: 'all' },
@@ -38,25 +40,13 @@ const state = reactive({
   content: 'all'
 });
 
-const addToCart = (item) => {
-  const findItem = state.cart.find((cartItem) => cartItem.id === item.id);
-  console.log(findItem)
-  if(findItem){
-    findItem.count += 1;
-  }
-  else{
-    state.cart.push(item);
-    saveCartToLocalStorage();
-  };
-  
-  saveCartToLocalStorage();
+const { addToCart, cart} = useCart();
+
+function addItemToCart(item: jsonData){
+  addToCart(item);
 }
 
-const saveCartToLocalStorage = () => {
-  localStorage.setItem('cart', JSON.stringify(state.cart));
-};
-
-const changeContent = (newContent) => {
+const changeContent = (newContent: string) => {
   state.content = newContent;
 };
 

@@ -1,7 +1,7 @@
 <template>
     <div class="cart-container">
       <a href="#" class="cart-icon">
-        <img src="./HeaderImage/cartImage.svg" alt="Cart Icon">
+        <img src="../HeaderImage/cartImage.svg" alt="Cart Icon">
         <span class="cart-count">{{ contentDialog.length }}</span>
       </a>
   
@@ -30,15 +30,17 @@
     </div>
 </template>
 
-<script setup>
-  import { ref, onMounted, watch } from 'vue';
+<script setup lang="ts">
+  import { ref, onMounted, computed } from 'vue';
+  import jsonData from '../interface/jsonData'
 
-  const isCartOpen = ref(false);
-  const contentDialog = ref([]);
-  const totalSum = ref();
+  const isCartOpen = ref<boolean>(false);
+  const contentDialog = ref<jsonData[]>([]);
+  // const totalSum = ref();
 
-  const removeFromCart = (id) => {
+  const removeFromCart = (id: number) => {
     contentDialog.value = contentDialog.value.filter(item => item.id !== id);
+    console.log(contentDialog)
     saveInformation();
   };
 
@@ -48,7 +50,7 @@
   };
 
   const loadLocalStorage = () => {
-    const parsedLocalStorage = JSON.parse(localStorage.getItem('cart'));
+    const parsedLocalStorage = JSON.parse(localStorage.getItem('cart') || '{}');
     if (parsedLocalStorage) {
       contentDialog.value = parsedLocalStorage;
     } else {
@@ -56,28 +58,29 @@
     }
   };
 
-  const increment = (item) => {
+  const increment = (item: jsonData) => {
     let findItem = contentDialog.value.find((cartItem) => cartItem.id === item.id);
+    if(findItem){
     findItem.count += 1;
     saveInformation();
+    }
   };
 
-  const discrement = (item) => {
+  const discrement = (item: jsonData) => {
     let findItem = contentDialog.value.find((cartItem) => cartItem.id === item.id);
-    console.log()
+    if(findItem){
     findItem.count -= 1;
     saveInformation();
+    }
   }
 
-  const getTotalSum = () =>{
-    totalSum.value = contentDialog.value.reduce((acc, item) => acc += parseFloat(item.price.replace('$', '')) * item.count, 0);
-  }
+  const totalSum = computed(() =>
+    contentDialog.value.reduce((acc, item) => acc += parseFloat(item.price.replace('$', '')) * item.count, 0)
+  )
 
   onMounted(() => {
     loadLocalStorage();
   });
-
-  watch(getTotalSum,)
 </script>
 
   

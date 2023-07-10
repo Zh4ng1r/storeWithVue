@@ -9,11 +9,11 @@
     </div>
 </template>
   
-<script setup>
-import { defineEmits, } from 'vue';
-import MyButton from './UI/MyButton.vue';
+<script setup lang="ts">
+import jsonData from '@/interface/jsonData';
+import MyButton from '../UI/MyButton.vue';
 
-const emit = defineEmits([])
+const emit = defineEmits(['add-to-cart'])
 const props = defineProps({
     item: {
         type: Object,
@@ -21,11 +21,11 @@ const props = defineProps({
     },
 })
 
-const addToCart = () =>{
+const addToCart = ():void =>{
   emit('add-to-cart', props.item);
 }
 
-const resolveImage = () => {
+const resolveImage = ():string => {
   return props.item.image;
 };
 

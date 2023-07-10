@@ -3,7 +3,7 @@
       <div class="container"> 
           <nav class="navigation">
               <div class="logo">
-                  <router-link to="/"><img src="./HeaderImage/logotype.png" alt=""></router-link>
+                  <router-link to="/"><img src="../HeaderImage/logotype.png" alt=""></router-link>
               </div>
           
               <div class="text-block">
@@ -16,8 +16,8 @@
                       <li class="header-text"><a href="">Sale</a></li>
                       <li class="header-text"><a href="">Blog</a></li>
                   </ul>
-                  <a href=""><img src="./HeaderImage/cartImage.svg" alt="SVG Image" @click.prevent="showDialog"></a>
-                  <my-dialog v-model:show="dialogVisible" @close="closeDialog" @keyup.esc="closeDialog">
+                  <a href=""><img src="../HeaderImage/cartImage.svg" alt="SVG Image" @click.prevent="showDialog"></a>
+                  <my-dialog v-model:show="dialogVisible">
                       <CartCompanents/>
                   </my-dialog>
               </div>
@@ -26,13 +26,12 @@
   </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
-import CartCompanents from './CartCompanents'
-import MyDialog from './UI/MyDialog.vue';
+import CartCompanents from './CartCompanents.vue'
+import MyDialog from '../UI/MyDialog.vue';
 
-const dialogVisible = ref(false);
-const contentDialog = ref([]);
+const dialogVisible = ref<Boolean>(false);
 
 const showDialog = () => {
     dialogVisible.value = true; 
@@ -83,17 +82,4 @@ a{
   position: relative;
 }
 
-.cart-sidebar {
-  position: fixed;
-  top: 0;
-  right: -300px;
-  width: 300px;
-  height: 100vh;
-  background-color: #fff;
-  transition: right 0.3s ease; 
-}
-
-.cart-sidebar-open {
-  right: 0; 
-}
 </style>
